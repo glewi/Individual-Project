@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30011.22
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlotterConversionSystem", "PlotterConversionSystem.csproj", "{EE6FD1FF-1BC7-44C9-A6BE-26C3C6FC12AD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EE6FD1FF-1BC7-44C9-A6BE-26C3C6FC12AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE6FD1FF-1BC7-44C9-A6BE-26C3C6FC12AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE6FD1FF-1BC7-44C9-A6BE-26C3C6FC12AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE6FD1FF-1BC7-44C9-A6BE-26C3C6FC12AD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5FF33892-FC78-4FC7-9BEA-1F52A31E2839}
+	EndGlobalSection
+EndGlobal
