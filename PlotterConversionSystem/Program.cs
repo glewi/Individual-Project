@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PlotterConversionSystem
+﻿namespace PlotterConversionSystem
 {
     class Program
     {
         static void Main(string[] args)
         {
+            string inputtestpath = @"test.svg";
+            string outputtestpath = @"output.hpgl";
+            CompilerFaçade.Compile(inputtestpath, outputtestpath);
         }
     }
 }
