@@ -8,6 +8,16 @@ namespace PlotterConversionSystem.Frontends.TinySVG
     public static class TinySvgLexer
     {
         private static ITokenFactory factory = new TinySvgTokenFactory();
+        
+        private static void LexCanvasOptions(XElement[] elements)
+        {
+
+        }
+
+        private static void LexAttribute(XAttribute attributes)
+        {
+
+        }
 
         /// <summary>
         /// Lex an array of XElements.
@@ -33,7 +43,11 @@ namespace PlotterConversionSystem.Frontends.TinySVG
                 {
                     parameterarray[j] = attributes[j].Value;
                 }
-                tokens[i] = factory.CreateToken(element.Name.LocalName, parameterarray);
+
+                if (!(element.Name.LocalName == "desc"))
+                {
+                    tokens[i] = factory.CreateToken(element.Name.LocalName, parameterarray);
+                }
             }
             return tokens;
         }

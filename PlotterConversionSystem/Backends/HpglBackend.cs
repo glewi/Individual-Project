@@ -25,7 +25,7 @@ namespace PlotterConversionSystem.Backends
         public void WriteFile(JsonRoot root, string @path)
         {
             HPGLWriter writer = new HPGLWriter();
-            string towrite = writer.buildFile(root);
+            string towrite = writer.BuildFile(root);
 
             ClearFile(@path);
             File.WriteAllText(path, towrite);

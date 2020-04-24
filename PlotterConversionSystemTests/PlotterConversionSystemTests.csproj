@@ -51,8 +51,14 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Backends\HPGLWriterTests.cs" />
+    <Compile Include="CompilerFaçadeTests.cs" />
+    <Compile Include="ProgramTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TokenDefinitions\TinySvgTokenFactoryTests.cs" />
+    <Compile Include="TokenDefinitions\TinySVG\TinySvgCircleTests.cs" />
+    <Compile Include="TokenDefinitions\TinySVG\TinySvgLineTests.cs" />
+    <Compile Include="TokenDefinitions\TinySVG\TinySvgRectangleTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PlotterConversionSystem\PlotterConversionSystem.csproj">

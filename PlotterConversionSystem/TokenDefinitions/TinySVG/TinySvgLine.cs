@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,28 +7,25 @@ using System.Threading.Tasks;
 namespace PlotterConversionSystem.TokenDefinitions.TinySVG
 {
     /// <summary>
-    /// Represents a TinySVG circle.
+    /// Represents a TinySVG line.
     /// </summary>
-    public class TinySvgCircle : IToken
+    public class TinySvgLine : IToken
     {
         // The token ID generated at object instantiation.  Cannot be changed, only read.
-        private readonly byte tokenID = checked((byte)SymbolTable.Circle);
-        
-        // Store the XY coordiantes of the token.
-        private int x = 0, y = 0;
+        private readonly byte tokenID = checked((byte)SymbolTable.Line);
 
-        // Store the radius of the token.
-        private uint r = 0;
+        // Store the XY coordiantes of the token.
+        private int x1 = 0, y1 = 0, x2 = 0, y2 = 0;
 
         /// <summary>
-        /// The constructor for the TinySvgCircle class.
+        /// The constructor for the TinySvgLine class.
         /// </summary>
         /// <param name="attributes"> A string[] of variable length. </param>
-        public TinySvgCircle(params string[] attributes)
+        public TinySvgLine(params string[] attributes)
         {
             SetStringParameters(attributes);
         }
-
+        
         /// <summary>
         /// Returns the token ID that is assigned to the token at creation.
         /// </summary>
@@ -50,9 +46,10 @@ namespace PlotterConversionSystem.TokenDefinitions.TinySVG
         {
             return new Dictionary<string, string>
             {
-                {"x", x.ToString()},
-                {"y", y.ToString()},
-                {"r", r.ToString()}
+                {"x1", x1.ToString()},
+                {"y1", y1.ToString()},
+                {"x2", x2.ToString()},
+                {"y2", y2.ToString()}
             };
         }
 
@@ -65,23 +62,25 @@ namespace PlotterConversionSystem.TokenDefinitions.TinySVG
         {
             return new string[]
             {
-                x.ToString(),
-                y.ToString(),
-                r.ToString()
+                x1.ToString(),
+                y1.ToString(),
+                x2.ToString(),
+                y2.ToString()
             };
         }
 
         /// <summary>
         /// Assigns the attributes of the token to a given string array.
         /// </summary>
-        /// <param name="parameters"> A <code>string[]</code> of variable length. </param>
+        /// <param name="parameters"> A string[] of variable length. </param>
         public void SetStringParameters(params string[] parameters)
         {
             try
             {
-                x = int.Parse(parameters[0]);
-                y = int.Parse(parameters[1]);
-                r = checked(uint.Parse(parameters[2]));
+                x1 = int.Parse(parameters[0]);
+                y1 = int.Parse(parameters[1]);
+                x2 = int.Parse(parameters[2]);
+                y2 = int.Parse(parameters[3]);
             }
             catch (Exception exception)
             {

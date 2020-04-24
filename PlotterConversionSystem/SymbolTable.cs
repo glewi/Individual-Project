@@ -2,11 +2,12 @@
 {
     public enum SymbolTable
     {
-        Circle,
+        Circle = 0,
         Rectangle,
         Ellipse,
         Line,
         Polyline,
-        Polygon
+        Polygon,
+        Desc = 255
     }
 }

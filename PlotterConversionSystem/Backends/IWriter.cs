@@ -4,6 +4,6 @@ namespace PlotterConversionSystem.Backends
 {
     public interface IWriter
     {
-        string buildFile(JsonRoot root);
+        string BuildFile(JsonRoot root);
     }
 }

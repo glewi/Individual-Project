@@ -1,31 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PlotterConversionSystem.TokenDefinitions.TinySVG
 {
     /// <summary>
-    /// Represents a TinySVG circle.
+    /// Represents a TinySVG rectangle.
     /// </summary>
-    public class TinySvgCircle : IToken
+    public class TinySvgRectangle : IToken
     {
-        // The token ID generated at object instantiation.  Cannot be changed, only read.
-        private readonly byte tokenID = checked((byte)SymbolTable.Circle);
+        // The token ID generated at object instantiation. Cannot be changed, only read.
+        private readonly byte tokenID = checked((byte)SymbolTable.Rectangle);
         
-        // Store the XY coordiantes of the token.
-        private int x = 0, y = 0;
+        // Store the XY coordinates, and the width and height of the token.
+        private int x = 0, y = 0, width = 0, height = 0;
 
-        // Store the radius of the token.
-        private uint r = 0;
+        // Store the radius of the corners of the rectangle if it rounded, 
+        // default to 0 if not used.
+        private uint rx = 0, ry = 0;
 
         /// <summary>
-        /// The constructor for the TinySvgCircle class.
+        /// The constructor for the <code>TinySvgRectangle</code> class.
         /// </summary>
-        /// <param name="attributes"> A string[] of variable length. </param>
-        public TinySvgCircle(params string[] attributes)
+        /// <param name="attributes"> A <code>string[]</code> of variable length. </param>
+        public TinySvgRectangle(params string[] attributes)
         {
             SetStringParameters(attributes);
         }
@@ -52,7 +49,10 @@ namespace PlotterConversionSystem.TokenDefinitions.TinySVG
             {
                 {"x", x.ToString()},
                 {"y", y.ToString()},
-                {"r", r.ToString()}
+                {"width", width.ToString() },
+                {"height", height.ToString() },
+                {"rx", rx.ToString()},
+                {"ry", ry.ToString()}
             };
         }
 
@@ -67,21 +67,32 @@ namespace PlotterConversionSystem.TokenDefinitions.TinySVG
             {
                 x.ToString(),
                 y.ToString(),
-                r.ToString()
+                width.ToString(),
+                height.ToString(),
+                rx.ToString(),
+                ry.ToString()
             };
         }
 
         /// <summary>
         /// Assigns the attributes of the token to a given string array.
         /// </summary>
-        /// <param name="parameters"> A <code>string[]</code> of variable length. </param>
+        /// <param name="parameters"> A <code>string[]</code> of variable length </param>
         public void SetStringParameters(params string[] parameters)
         {
+            // Check for any errors when parsing the int values from the given strings.
             try
             {
+                // Parse integers from the given strings, throws an InvalidCastException otherwise.
                 x = int.Parse(parameters[0]);
                 y = int.Parse(parameters[1]);
-                r = checked(uint.Parse(parameters[2]));
+                width = int.Parse(parameters[2]);
+                height = int.Parse(parameters[3]);
+
+                // Use a checked block to validate against invalid integers passed to the Uint.
+                // Should throw an OverflowException if the parsed integers are invalid.
+                rx = checked(uint.Parse(parameters[4]));
+                ry = checked(uint.Parse(parameters[5]));
             }
             catch (Exception exception)
             {

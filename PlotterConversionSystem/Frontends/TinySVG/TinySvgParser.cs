@@ -23,14 +23,17 @@ namespace PlotterConversionSystem.Frontends.TinySVG
 
             for (int i = 0; i < tokens.Length; i++)
             {
-                IToken token = tokens[i];
-                serialiseObject = new SerialiseObject();
-                serialiseObject.tokenID = token.GetID();
-                serialiseObject.attributes = token.GetNamedParameters();
+                if (tokens[i] != null)
+                {
+                    IToken token = tokens[i];
+                    serialiseObject = new SerialiseObject();
+                    serialiseObject.tokenID = token.GetID();
+                    serialiseObject.attributes = token.GetNamedParameters();
 
-                // Style information goes here...
+                    // Style information goes here...
 
-                jsonRoot.tokenarray[i] = serialiseObject;
+                    jsonRoot.tokenarray[i] = serialiseObject;
+                }
             }
 
             var Json = JsonSerializer.Serialize<JsonRoot>(jsonRoot, options);

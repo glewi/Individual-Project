@@ -92,6 +92,12 @@
     <Compile Include="TokenDefinitions\ITokenFactory.cs" />
     <Compile Include="TokenDefinitions\TinySvgTokenFactory.cs" />
     <Compile Include="TokenDefinitions\TinySVG\TinySvgCircle.cs" />
+    <Compile Include="TokenDefinitions\TinySVG\TinySvgDesc.cs" />
+    <Compile Include="TokenDefinitions\TinySVG\TinySvgEllipse.cs" />
+    <Compile Include="TokenDefinitions\TinySVG\TinySvgLine.cs" />
+    <Compile Include="TokenDefinitions\TinySVG\TinySvgPolygon.cs" />
+    <Compile Include="TokenDefinitions\TinySVG\TinySvgPolyline.cs" />
+    <Compile Include="TokenDefinitions\TinySVG\TinySvgRectangle.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

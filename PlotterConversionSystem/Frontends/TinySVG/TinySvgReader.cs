@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
 
@@ -6,7 +7,12 @@ namespace PlotterConversionSystem.Frontends.TinySVG
 {
     public static class TinySvgReader
     {
-        public static string[] Read(string @path)
+        private static string[] ReadCanvas(string @path)
+        {
+            throw new NotImplementedException();
+        }
+        
+        private static string[] ReadElements(string @path)
         {
             XDocument document = XDocument.Load(@path);
             IEnumerable<XElement> xml =
@@ -24,6 +30,12 @@ namespace PlotterConversionSystem.Frontends.TinySVG
             }
 
             return elements;
+        }
+
+        public static string[] Read(string @path)
+        {
+            //var test = ReadCanvas(@path);
+            return ReadElements(@path);
         }
     }
 }

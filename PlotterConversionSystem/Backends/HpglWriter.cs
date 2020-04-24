@@ -1,7 +1,8 @@
-﻿using System;
+﻿using PlotterConversionSystem.IRTools;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
-using PlotterConversionSystem.IRTools;
 
 namespace PlotterConversionSystem.Backends
 {
@@ -10,15 +11,16 @@ namespace PlotterConversionSystem.Backends
         private StringBuilder hpglbuilder = new StringBuilder();
         private const int defaultPen = 1;
         private const double resolution = 0.5;
+        private const int rotation = 0;
 
-        private string initialiseFile()
+        private string InitialiseFile()
         {
             string cmd = $"IN;\n" +
                          $"SP{defaultPen};";
             return cmd;
         }
 
-        private string circleCommand(SerialiseObject serialisedToken)
+        private string CircleCommand(SerialiseObject serialisedToken)
         {
             Dictionary<string, string> keys = serialisedToken.attributes;
             string x, y, r;
@@ -32,30 +34,24 @@ namespace PlotterConversionSystem.Backends
             return cmd;
         }
 
-        private string rectangleCommand(SerialiseObject serialisedToken)
+        private string RectangleCommand(SerialiseObject serialisedToken)
         {
             Dictionary<string, string> keys = serialisedToken.attributes;
-            string x, y, width, height, rx, ry;
+            string x, y, width, height;
 
             keys.TryGetValue("x", out x);
             keys.TryGetValue("y", out y);
             keys.TryGetValue("width", out width);
             keys.TryGetValue("height", out height);
-            keys.TryGetValue("rx", out rx);
-            keys.TryGetValue("ry", out ry);
 
-            string cmd = $"PA {x},{y};\n" +
-                         $"PD;\n" +
-                         $"PR{x},{width};\n" +
-                         $"PR{height},{width};\n" +
-                         $"PR{y},{height};\n" +
-                         $"PR{x},{width};\n" +
-                         $"PU {x},{y};\n";
+            string cmd = $"PU {x},{y};\n" +
+                         $"ER {width},{height};\n" +
+                         $"PU;";
 
             return cmd;
         }
 
-        private string lineCommand(SerialiseObject serialise)
+        private string LineCommand(SerialiseObject serialise)
         {
             Dictionary<string, string> s = serialise.attributes;
             string x1, y1, x2, y2;
@@ -65,76 +61,106 @@ namespace PlotterConversionSystem.Backends
             s.TryGetValue("x2", out x2);
             s.TryGetValue("y2", out y2);
 
-            string cmd = $"PU {x1},{y1};" +
-                         $"PD {x2}.{x2};" +
+            string cmd = $"PU {x1},{y1};\n" +
+                         $"PD {x2},{y2};\n" +
                          $"PU;";
 
             return cmd;
         }
 
-        private string lineCommand(int x, int y)
+        private string EllipseCommand(SerialiseObject serialise)
         {
-            string cmd = $"PD {x},{y};";
-            return cmd;
+            return null;
         }
 
-        private string polyLineCommand(SerialiseObject serialise)
+        private string PolylineCommand(SerialiseObject serialise)
         {
+            StringBuilder builder = new StringBuilder();
             Dictionary<string, string> s = serialise.attributes;
             string val;
-            s.TryGetValue("points", out val);
+            s.TryGetValue("path", out val);
 
-            string cmd = "polyline goes here";
-            return cmd;
+            string[] points = val.Split(' ').ToArray();
+            string[] initialpoint = points[0].Split(',');
+            (string initx, string inity) = (initialpoint[0], initialpoint[1]);
+            
+            builder.AppendLine($"PU {initx},{inity};");
+
+            string[] pair;
+
+            for (int i = 1; i < points.Length; i++)
+            {
+                pair = points[i].Split(',');
+                builder.AppendLine($"PD {pair[0]},{pair[1]};");
+            }
+            return builder.ToString();
         }
 
-        private string polygonCommand(SerialiseObject serialise)
+        private string PolygonCommand(SerialiseObject serialise)
         {
+            StringBuilder builder = new StringBuilder();
             Dictionary<string, string> s = serialise.attributes;
-
             string val;
-            s.TryGetValue("points", out val);
+            s.TryGetValue("path", out val);
 
-            string cmd = "polygon goes here";
-            return cmd;
+            string[] points = val.Split(' ').ToArray();
+            string[] initialpoint = points[0].Split(',');
+            (string initx, string inity) = (initialpoint[0], initialpoint[1]);
+
+            builder.AppendLine($"PU {initx},{inity};");
+
+            string[] pair;
+
+            for (int i = 1; i < points.Length; i++)
+            {
+                pair = points[i].Split(',');
+                builder.AppendLine($"PD {pair[0]},{pair[1]};");
+            }
+
+            builder.AppendLine($"PU {initx},{inity};");
+            return builder.ToString();
         }
 
-        public string buildFile(JsonRoot root)
+        public string BuildFile(JsonRoot root)
         {
-            hpglbuilder.Append(initialiseFile());
+            hpglbuilder.AppendLine(InitialiseFile());
             string cmd = null;
 
             foreach (SerialiseObject serialisedToken in root.tokenarray)
             {
-                switch (serialisedToken.tokenID)
+                if (serialisedToken != null)
                 {
-                    case (byte)SymbolTable.Circle:
-                        cmd = circleCommand(serialisedToken);
-                        hpglbuilder.AppendLine(cmd);
-                        break;
+                    switch (serialisedToken.tokenID)
+                    {
+                        case (byte)SymbolTable.Circle:
+                            cmd = CircleCommand(serialisedToken);
+                            hpglbuilder.AppendLine(cmd);
+                            break;
 
-                    case (byte)SymbolTable.Rectangle:
-                        cmd = rectangleCommand(serialisedToken);
-                        hpglbuilder.AppendLine(cmd);
-                        break;
+                        case (byte)SymbolTable.Rectangle:
+                            cmd = RectangleCommand(serialisedToken);
+                            hpglbuilder.AppendLine(cmd);
+                            break;
 
-                    case (byte)SymbolTable.Line:
-                        cmd = lineCommand(serialisedToken);
-                        hpglbuilder.AppendLine(cmd);
-                        break;
+                        case (byte)SymbolTable.Line:
+                            cmd = LineCommand(serialisedToken);
+                            hpglbuilder.AppendLine(cmd);
+                            break;
 
-                    case (byte)SymbolTable.Polyline:
-                        cmd = polyLineCommand(serialisedToken);
-                        hpglbuilder.AppendLine(cmd);
-                        break;
+                        case (byte)SymbolTable.Polyline:
+                            cmd = PolylineCommand(serialisedToken);
+                            hpglbuilder.AppendLine(cmd);
+                            break;
 
-                    case (byte)SymbolTable.Polygon:
-                        cmd = polygonCommand(serialisedToken);
-                        hpglbuilder.AppendLine(cmd);
-                        break;
+                        case (byte)SymbolTable.Polygon:
+                            cmd = PolygonCommand(serialisedToken);
+                            hpglbuilder.AppendLine(cmd);
+                            break;
 
-                    default:
-                        throw new NotImplementedException();
+                        default:
+                            // Fail silently.
+                            break;
+                    }
                 }
             }
             return hpglbuilder.ToString();
