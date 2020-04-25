@@ -21,6 +21,9 @@ namespace PlotterConversionSystem.TokenDefinitions
                 case (byte)SymbolTable.Polyline:
                     return new TinySvgPolyline(attributes);
 
+                case (byte)SymbolTable.Polygon:
+                    return new TinySvgPolygon(attributes);
+
                 default:
                     throw new NotImplementedException();
             }
@@ -41,6 +44,9 @@ namespace PlotterConversionSystem.TokenDefinitions
 
                 case "polyline":
                     return new TinySvgPolyline(attributes);
+
+                case "polygon":
+                    return new TinySvgPolygon(attributes);
 
                 default:
                     throw new NotImplementedException();

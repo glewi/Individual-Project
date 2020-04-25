@@ -46,7 +46,14 @@ namespace PlotterConversionSystem.Frontends.TinySVG
 
                 if (!(element.Name.LocalName == "desc"))
                 {
-                    tokens[i] = factory.CreateToken(element.Name.LocalName, parameterarray);
+                    try
+                    {
+                        tokens[i] = factory.CreateToken(element.Name.LocalName, parameterarray);
+                    }
+                    catch(Exception exception)
+                    {
+                        Console.WriteLine(exception.Message);
+                    }
                 }
             }
             return tokens;

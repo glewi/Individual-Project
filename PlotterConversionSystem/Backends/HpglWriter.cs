@@ -117,7 +117,9 @@ namespace PlotterConversionSystem.Backends
                 builder.AppendLine($"PD {pair[0]},{pair[1]};");
             }
 
-            builder.AppendLine($"PU {initx},{inity};");
+            builder.AppendLine($"PD {initx},{inity};\n" +
+                               $"PU;");
+
             return builder.ToString();
         }
 

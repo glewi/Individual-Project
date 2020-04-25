@@ -10,13 +10,11 @@ namespace PlotterConversionSystem.TokenDefinitions.TinySVG
     {
         // The token ID generated at object instantiation.  Cannot be changed, only read.
         private readonly byte tokenID = checked((byte)SymbolTable.Polyline);
+        private StringBuilder builder = new StringBuilder();
         private string path = null;
-        private List<string> parsedpath = null;
-
+        
         private string ParsePath(string path)
         {
-            StringBuilder builder = new StringBuilder();
-
             foreach(char c in path)
             {   
                 if (c != ' ')
@@ -58,7 +56,7 @@ namespace PlotterConversionSystem.TokenDefinitions.TinySVG
         {
             try
             {
-                path = parameters[0];
+                path = ParsePath(parameters[0]);
             }
             catch (Exception exception)
             {
