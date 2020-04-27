@@ -5,6 +5,9 @@ using PlotterConversionSystem.TokenDefinitions;
 
 namespace PlotterConversionSystem.Frontends.TinySVG
 {
+    /// <summary>
+    /// The class responsible for the lexical analysis of tinySVG files.
+    /// </summary>
     public static class TinySvgLexer
     {
         private static ITokenFactory factory = new TinySvgTokenFactory();

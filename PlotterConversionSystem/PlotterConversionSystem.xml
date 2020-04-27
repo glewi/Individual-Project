@@ -1,0 +1,523 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>PlotterConversionSystem</name>
+    </assembly>
+    <members>
+        <member name="T:PlotterConversionSystem.Backends.HpglBackend">
+            <summary>
+            This backend implementation acts the the director
+            for the HPGL output.
+            </summary>
+        </member>
+        <member name="M:PlotterConversionSystem.Backends.HpglBackend.ClearFile(System.String)">
+            <summary>
+            The ClearFile method deletes the contents of a given file.
+            </summary>
+            <param name="path">The path of the file that is to be cleared.</param>
+        </member>
+        <member name="M:PlotterConversionSystem.Backends.HpglBackend.WriteFile(PlotterConversionSystem.IRTools.JsonRoot,System.String)">
+            <summary>
+            The WriteFile method writes the contents of a given file.
+            </summary>
+            <param name="root"> The root object is the JsonRoot item that commands are to be genereted from. </param>
+            <param name="path"> The path object is the location where the file is to be written. </param>
+        </member>
+        <member name="T:PlotterConversionSystem.Backends.HPGLWriter">
+            <summary>
+            The class responsible for the HPGL output.
+            </summary>
+        </member>
+        <member name="M:PlotterConversionSystem.Backends.HPGLWriter.InitialiseFile">
+            <summary>
+            Write the commands that initialise a HPGL file.
+            </summary>
+        </member>
+        <member name="M:PlotterConversionSystem.Backends.HPGLWriter.CircleCommand(PlotterConversionSystem.IRTools.SerialiseObject)">
+            <summary>
+            Build a string that represents a HPGL circle.
+            </summary>
+            <param name="serialisedToken"> The token to utilise. </param>
+        </member>
+        <member name="M:PlotterConversionSystem.Backends.HPGLWriter.RectangleCommand(PlotterConversionSystem.IRTools.SerialiseObject)">
+            <summary>
+            Build a string that represents a HPGL rectangle.
+            </summary>
+            <param name="serialisedToken"> The token to utilise. </param>
+        </member>
+        <member name="M:PlotterConversionSystem.Backends.HPGLWriter.LineCommand(PlotterConversionSystem.IRTools.SerialiseObject)">
+            <summary>
+            Build a string that represents a HPGL line.
+            </summary>
+            <param name="serialisedToken"> The token to utilise. </param>
+        </member>
+        <member name="M:PlotterConversionSystem.Backends.HPGLWriter.EllipseCommand(PlotterConversionSystem.IRTools.SerialiseObject)">
+            <summary>
+            Build a string that represents a HPGL ellipse.
+            </summary>
+            <param name="serialisedToken"> The token to utilise. </param>
+        </member>
+        <member name="M:PlotterConversionSystem.Backends.HPGLWriter.PolylineCommand(PlotterConversionSystem.IRTools.SerialiseObject)">
+            <summary>
+            Build a string that represents a HPGL polyline.
+            </summary>
+            <param name="serialisedToken">The token to utilised</param>
+        </member>
+        <member name="M:PlotterConversionSystem.Backends.HPGLWriter.PolygonCommand(PlotterConversionSystem.IRTools.SerialiseObject)">
+            <summary>
+            Build a string that represents a HPGL polyline.
+            </summary>
+            <param name="serialisedToken">The token to utilised</param>
+        </member>
+        <member name="M:PlotterConversionSystem.Backends.HPGLWriter.BuildFile(PlotterConversionSystem.IRTools.JsonRoot)">
+            <summary>
+            The entrypoint for building an HPGL file.
+            </summary>
+            <param name="root"> The JsonRoot object that is used to generated the file. </param>
+        </member>
+        <member name="T:PlotterConversionSystem.Backends.IBackend">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:PlotterConversionSystem.Backends.IBackend.WriteFile(PlotterConversionSystem.IRTools.JsonRoot,System.String)">
+            <summary>
+            The interface that represents the methods that a backend should implement.  Currently
+            only contains the WriteFile method, which takes a JsonRoot object and a file path for the output.
+            </summary>
+            <param name="root"> The program that is to be written, in the form of a JsonRoot object </param>
+            <param name="path"> The path that the final output should be stored at </param>
+        </member>
+        <member name="T:PlotterConversionSystem.Backends.IWriter">
+            <summary>
+            The itnerface that an output writer should implement.  This is used so developers
+            could add writers that work in different ways than the currently implemented HPGL writer.
+            </summary>
+        </member>
+        <member name="M:PlotterConversionSystem.Backends.IWriter.BuildFile(PlotterConversionSystem.IRTools.JsonRoot)">
+            <summary>
+            This method takes a JsonRoot representation of a program and uses it to build a file
+            of the commands that need to be written.
+            </summary>
+            <param name="root">  The program that is to be operated on. </param>
+            <returns></returns>
+        </member>
+        <member name="T:PlotterConversionSystem.CompilerFaçade">
+            <summary>
+            The entry point for the system.  It utilises a facade design pattern that simplifies
+            the creation of the system object.
+            </summary>
+        </member>
+        <member name="M:PlotterConversionSystem.CompilerFaçade.ValidatePath(System.String)">
+            <summary>
+            Validates if the provided path exists.
+            </summary>
+            <param name="path"> The path that the program is trying to write. </param>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:PlotterConversionSystem.CompilerFaçade.Compile(System.String,System.String)" -->
+        <member name="T:PlotterConversionSystem.Frontends.IFrontend">
+            <summary>
+            The interface that is to be implemented by the
+            </summary>
+        </member>
+        <member name="M:PlotterConversionSystem.Frontends.IFrontend.Read(System.String)">
+            <summary>
+            The method that accepts a file path as input and returns the statements
+            from said file as a string array.
+            </summary>
+            <param name="input"> The path of the file that is to be read. </param>
+            <returns>  A string array of each statement in the file/ </returns>
+        </member>
+        <member name="M:PlotterConversionSystem.Frontends.IFrontend.Lex(System.String[])">
+            <summary>
+            The method that accepts a string array of program staements and performs lexical analysis
+            that creates and returns a string of generated ITokens.
+            </summary>
+            <param name="tokens"> The statements to lex. </param>
+            <returns> The IToken array representation of these statements. </returns>
+        </member>
+        <member name="M:PlotterConversionSystem.Frontends.IFrontend.Parse(PlotterConversionSystem.TokenDefinitions.IToken[])">
+            <summary>
+            The parser is responsible for serialising the IToken array generated by the lexical analyser.
+            </summary>
+            <param name="tokens"> The token array generated by the Lex method. </param>
+        </member>
+        <member name="T:PlotterConversionSystem.Frontends.TinySvgFrontend">
+            <summary>
+            The class responsible for managing the TinySVGFrontend methods.
+            </summary>
+        </member>
+        <member name="M:PlotterConversionSystem.Frontends.TinySvgFrontend.Read(System.String)">
+            <summary>
+            Reads a program statements from a given path and returns them.
+            </summary>
+            <param name="path">  The file path to read. </param>
+            <returns></returns>
+        </member>
+        <member name="M:PlotterConversionSystem.Frontends.TinySvgFrontend.Lex(System.String[])">
+            <summary>
+            Performas lexical analysis on the given program statements.
+            </summary>
+            <param name="statements"> The statements read by the associated reader class. </param>
+            <returns> An array of ITokens that represent the program statements. </returns>
+        </member>
+        <member name="M:PlotterConversionSystem.Frontends.TinySvgFrontend.Parse(PlotterConversionSystem.TokenDefinitions.IToken[])">
+            <summary>
+            Parse the tokens to an intermediate representation
+            </summary>
+            <param name="tokens">  The tokens that are to be parsed. </param>
+        </member>
+        <member name="T:PlotterConversionSystem.Frontends.TinySVG.TinySvgLexer">
+            <summary>
+            The class responsible for the lexical analysis of tinySVG files.
+            </summary>
+        </member>
+        <member name="M:PlotterConversionSystem.Frontends.TinySVG.TinySvgLexer.Lex(System.Xml.Linq.XElement[])">
+            <summary>
+            Lex an array of XElements.
+            </summary>
+            <param name="elements">
+            An array of XElement retreived from LINQ.
+            </param>
+            <returns>
+            An IToken array of the passed XElement array.
+            </returns>
+        </member>
+        <member name="T:PlotterConversionSystem.Frontends.TinySVG.TinySvgParser">
+            <summary>
+            The class responsible for parsing the TinySVG intermediate representation.
+            </summary>
+        </member>
+        <member name="M:PlotterConversionSystem.Frontends.TinySVG.TinySvgParser.Parse(PlotterConversionSystem.TokenDefinitions.IToken[])">
+            <summary>
+            Parse a given array of tokens.
+            </summary>
+            <param name="tokens">The tokens to be parsed.</param>
+        </member>
+        <member name="M:PlotterConversionSystem.Frontends.TinySVG.TinySvgParser.Parse(PlotterConversionSystem.TokenDefinitions.IToken)">
+            <summary>
+            Serialise a single token.
+            </summary>
+            <param name="token"></param>
+        </member>
+        <member name="M:PlotterConversionSystem.Frontends.TinySVG.TinySvgReader.ReadElements(System.String)">
+            <summary>
+            Use LINQtoXML to read the TinySVG data stored at a given path.
+            </summary>
+            <param name="path"> The path where the TinySVG program is stored</param>
+            <returns>A string array of TinySVG elements</returns>
+        </member>
+        <member name="M:PlotterConversionSystem.Frontends.TinySVG.TinySvgReader.Read(System.String)">
+            <summary>
+            Implements the IFrontend reader interface.
+            </summary>
+        </member>
+        <member name="T:PlotterConversionSystem.IRTools.IRReader">
+            <summary>
+            This helper class is responsible for the reading of the intermdiate
+            representation JSON file.
+            </summary>
+        </member>
+        <member name="M:PlotterConversionSystem.IRTools.IRReader.Read">
+            <summary>
+            Read the file contained at the deault filepath.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:PlotterConversionSystem.IRTools.IRWriter">
+            <summary>
+            This helper class is responsible for the writing of the
+            intermediate representation JSON file.
+            </summary>
+        </member>
+        <member name="M:PlotterConversionSystem.IRTools.IRWriter.ClearFile(System.String)">
+            <summary>
+            The ClearFile method deletes the contents of a given file.
+            </summary>
+            <param name="path">The path of the file that is to be cleared.</param>
+        </member>
+        <member name="M:PlotterConversionSystem.IRTools.IRWriter.Write(System.String,System.String)">
+            <summary>
+            Writes a program string to a given file path.
+            </summary>
+            <param name="prog"> The program string to be written. </param>
+            <param name="path">  The file path where it is to be written </param>
+        </member>
+        <member name="M:PlotterConversionSystem.IRTools.IRWriter.Write(System.String[],System.String)">
+            <summary>
+            Writes an array of string statements to a file.
+            </summary>
+            <param name="prog"> The program string to be written. </param>
+            <param name="path">  The file path where it is to be written </param>
+        </member>
+        <member name="T:PlotterConversionSystem.IRTools.JsonRoot">
+            <summary>
+            The JsonRoot object only exists because the JSON language
+            requires a root level object.  So this simply stores a list of
+            serialiseObjects that are to be written and read from the intermediate
+            representation.
+            </summary>
+        </member>
+        <member name="T:PlotterConversionSystem.IRTools.SerialiseObject">
+            <summary>
+            The workaround class that enables the IToken implementations to allow
+            their private attributes to be serialised.
+            </summary>
+        </member>
+        <member name="T:PlotterConversionSystem.SymbolTable">
+            <summary>
+            Represents a mapping between token names and their associated ID.
+            </summary>
+        </member>
+        <member name="T:PlotterConversionSystem.TokenDefinitions.IToken">
+            <summary>
+            The interface that represents each token that is implemented.
+            </summary>
+        </member>
+        <member name="M:PlotterConversionSystem.TokenDefinitions.IToken.GetID">
+            <summary>
+            Return the token ID (0-255)
+            </summary>
+        </member>
+        <member name="M:PlotterConversionSystem.TokenDefinitions.IToken.GetNamedParameters">
+            <summary>
+            Get the token parameters and its associated name.
+            </summary>
+            <returns>Returns a dictionary of string,string which correlates to 'parametername, value'</returns>
+        </member>
+        <member name="M:PlotterConversionSystem.TokenDefinitions.IToken.GetParameters">
+            <summary>
+            Get a list of parameters from the token.
+            </summary>
+            <returns> Returns a string array of parameters from the token. </returns>
+        </member>
+        <member name="M:PlotterConversionSystem.TokenDefinitions.IToken.SetParameters(System.String[])">
+            <summary>
+            Set the token parameters.
+            </summary>
+            <param name="parameters"> An array of the token parameters </param>
+        </member>
+        <member name="T:PlotterConversionSystem.TokenDefinitions.ITokenFactory">
+            <summary>
+            This is the interface that every token factory needs to implement.
+            This allows for additional token factories to be subclasses as needed.
+            </summary>
+        </member>
+        <member name="M:PlotterConversionSystem.TokenDefinitions.ITokenFactory.CreateToken(System.Byte,System.String[])">
+            <summary>
+            This method creates a TinySVG token.
+            </summary>
+            <param name="identifier">  </param>
+            <param name="attributes"> The attributes is an array of attributes read from a TinySVG  </param>
+            <returns></returns>
+        </member>
+        <member name="M:PlotterConversionSystem.TokenDefinitions.ITokenFactory.CreateToken(System.String,System.String[])">
+            <summary>
+            This method creates a TinySVG token.
+            </summary>
+            <param name="identifier"> The identifier is a string read from the TinySVG reader. </param>
+            <param name="attributes"> The attributes is an array of attributes read from a TinySVG element </param>
+            <returns></returns>
+        </member>
+        <member name="T:PlotterConversionSystem.TokenDefinitions.TinySvgTokenFactory">
+            <summary>
+            This concrete token factory is used to generate TinySVG tokens for the rest of the project.
+            </summary>
+        </member>
+        <member name="T:PlotterConversionSystem.TokenDefinitions.TinySVG.TinySvgCircle">
+            <summary>
+            Represents a TinySVG circle.
+            </summary>
+        </member>
+        <member name="M:PlotterConversionSystem.TokenDefinitions.TinySVG.TinySvgCircle.#ctor(System.String[])">
+            <summary>
+            The constructor for the TinySvgCircle class.
+            </summary>
+            <param name="attributes"> A string[] of variable length. </param>
+        </member>
+        <member name="M:PlotterConversionSystem.TokenDefinitions.TinySVG.TinySvgCircle.GetID">
+            <summary>
+            Returns the token ID that is assigned to the token at creation.
+            </summary>
+            <returns>The byte ID of the token.</returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:PlotterConversionSystem.TokenDefinitions.TinySVG.TinySvgCircle.GetNamedParameters" -->
+        <member name="M:PlotterConversionSystem.TokenDefinitions.TinySVG.TinySvgCircle.GetParameters">
+            <summary>
+            Returns a string array containing all token attributes.
+            </summary>
+            <returns> A <code>string[]</code> of all attributes.
+            </returns>
+        </member>
+        <member name="M:PlotterConversionSystem.TokenDefinitions.TinySVG.TinySvgCircle.SetParameters(System.String[])">
+            <summary>
+            Assigns the attributes of the token to a given string array.
+            </summary>
+            <param name="parameters"> A <code>string[]</code> of variable length. </param>
+        </member>
+        <member name="T:PlotterConversionSystem.TokenDefinitions.TinySVG.TinySvgEllipse">
+            <summary>
+            Represents a TinySVG ellipse.
+            </summary>
+        </member>
+        <member name="M:PlotterConversionSystem.TokenDefinitions.TinySVG.TinySvgEllipse.#ctor(System.String[])">
+            <summary>
+            The constructor for the TinySvgEllipse class.
+            </summary>
+            <param name="attributes"> A string[] of variable length. </param>
+        </member>
+        <member name="M:PlotterConversionSystem.TokenDefinitions.TinySVG.TinySvgEllipse.GetID">
+            <summary>
+            Returns the token ID that is assigned to the token at creation.
+            </summary>
+            <returns>The byte ID of the token.</returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:PlotterConversionSystem.TokenDefinitions.TinySVG.TinySvgEllipse.GetNamedParameters" -->
+        <member name="M:PlotterConversionSystem.TokenDefinitions.TinySVG.TinySvgEllipse.GetParameters">
+            <summary>
+            Returns a string array containing all token attributes.
+            </summary>
+            <returns> A <code>string[]</code> of all attributes.
+            </returns>
+        </member>
+        <member name="M:PlotterConversionSystem.TokenDefinitions.TinySVG.TinySvgEllipse.SetParameters(System.String[])">
+            <summary>
+            Assigns the attributes of the token to a given string array.
+            </summary>
+            <param name="parameters"> A <code>string[]</code> of variable length. </param>
+        </member>
+        <member name="T:PlotterConversionSystem.TokenDefinitions.TinySVG.TinySvgLine">
+            <summary>
+            Represents a TinySVG line.
+            </summary>
+        </member>
+        <member name="M:PlotterConversionSystem.TokenDefinitions.TinySVG.TinySvgLine.#ctor(System.String[])">
+            <summary>
+            The constructor for the TinySvgLine class.
+            </summary>
+            <param name="attributes"> A string[] of variable length. </param>
+        </member>
+        <member name="M:PlotterConversionSystem.TokenDefinitions.TinySVG.TinySvgLine.GetID">
+            <summary>
+            Returns the token ID that is assigned to the token at creation.
+            </summary>
+            <returns>The byte ID of the token.</returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:PlotterConversionSystem.TokenDefinitions.TinySVG.TinySvgLine.GetNamedParameters" -->
+        <member name="M:PlotterConversionSystem.TokenDefinitions.TinySVG.TinySvgLine.GetParameters">
+            <summary>
+            Returns a string array containing all token attributes.
+            </summary>
+            <returns> A <code>string[]</code> of all attributes.
+            </returns>
+        </member>
+        <member name="M:PlotterConversionSystem.TokenDefinitions.TinySVG.TinySvgLine.SetParameters(System.String[])">
+            <summary>
+            Assigns the attributes of the token to a given string array.
+            </summary>
+            <param name="parameters"> A string[] of variable length. </param>
+        </member>
+        <member name="T:PlotterConversionSystem.TokenDefinitions.TinySVG.TinySvgPolygon">
+            <summary>
+            Represents a TinySVGPolygon.
+            </summary>
+        </member>
+        <member name="M:PlotterConversionSystem.TokenDefinitions.TinySVG.TinySvgPolygon.ParsePath(System.String)">
+            <summary>
+            Strip any uneccessary spaces from the path.
+            </summary>
+            <param name="path"> Te path attribute to be parsed. </param>
+            <returns></returns>
+        </member>
+        <member name="M:PlotterConversionSystem.TokenDefinitions.TinySVG.TinySvgPolygon.#ctor(System.String[])">
+            <summary>
+            The constructor for the TinySvgPolygon class.
+            </summary>
+            <param name="attributes"> A string[] of variable length. </param>
+        </member>
+        <member name="M:PlotterConversionSystem.TokenDefinitions.TinySVG.TinySvgPolygon.GetID">
+            <summary>
+            Returns the token ID that is assigned to the token at creation.
+            </summary>
+            <returns>The byte ID of the token.</returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:PlotterConversionSystem.TokenDefinitions.TinySVG.TinySvgPolygon.GetNamedParameters" -->
+        <member name="M:PlotterConversionSystem.TokenDefinitions.TinySVG.TinySvgPolygon.GetParameters">
+            <summary>
+            Returns a string array containing all token attributes.
+            </summary>
+            <returns> A <code>string[]</code> of all attributes.
+            </returns>
+        </member>
+        <member name="M:PlotterConversionSystem.TokenDefinitions.TinySVG.TinySvgPolygon.SetParameters(System.String[])">
+            <summary>
+            Assigns the attributes of the token to a given string array.
+            </summary>
+            <param name="parameters"> A string[] of variable length. </param>
+        </member>
+        <member name="M:PlotterConversionSystem.TokenDefinitions.TinySVG.TinySvgPolyline.ParsePath(System.String)">
+            <summary>
+            Strip any uneccessary spaces from the path.
+            </summary>
+            <param name="path"> Te path attribute to be parsed. </param>
+            <returns></returns>
+        </member>
+        <member name="M:PlotterConversionSystem.TokenDefinitions.TinySVG.TinySvgPolyline.#ctor(System.String[])">
+            <summary>
+            The constructor for the TinySvgPolygon class.
+            </summary>
+            <param name="attributes"> A string[] of variable length. </param>
+        </member>
+        <member name="M:PlotterConversionSystem.TokenDefinitions.TinySVG.TinySvgPolyline.GetID">
+            <summary>
+            Returns the token ID that is assigned to the token at creation.
+            </summary>
+            <returns>The byte ID of the token.</returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:PlotterConversionSystem.TokenDefinitions.TinySVG.TinySvgPolyline.GetNamedParameters" -->
+        <member name="M:PlotterConversionSystem.TokenDefinitions.TinySVG.TinySvgPolyline.GetParameters">
+            <summary>
+            Returns a string array containing all token attributes.
+            </summary>
+            <returns> A <code>string[]</code> of all attributes.
+            </returns>
+        </member>
+        <member name="M:PlotterConversionSystem.TokenDefinitions.TinySVG.TinySvgPolyline.SetParameters(System.String[])">
+            <summary>
+            Assigns the attributes of the token to a given string array.
+            </summary>
+            <param name="parameters"> A string[] of variable length. </param>
+        </member>
+        <member name="T:PlotterConversionSystem.TokenDefinitions.TinySVG.TinySvgRectangle">
+            <summary>
+            Represents a TinySVG rectangle.
+            </summary>
+        </member>
+        <member name="M:PlotterConversionSystem.TokenDefinitions.TinySVG.TinySvgRectangle.#ctor(System.String[])">
+            <summary>
+            The constructor for the <code>TinySvgRectangle</code> class.
+            </summary>
+            <param name="attributes"> A <code>string[]</code> of variable length. </param>
+        </member>
+        <member name="M:PlotterConversionSystem.TokenDefinitions.TinySVG.TinySvgRectangle.GetID">
+            <summary>
+            Returns the token ID that is assigned to the token at creation.
+            </summary>
+            <returns>The byte ID of the token.</returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:PlotterConversionSystem.TokenDefinitions.TinySVG.TinySvgRectangle.GetNamedParameters" -->
+        <member name="M:PlotterConversionSystem.TokenDefinitions.TinySVG.TinySvgRectangle.GetParameters">
+            <summary>
+            Returns a string array containing all token attributes.
+            </summary>
+            <returns> A <code>string[]</code> of all attributes.
+            </returns>
+        </member>
+        <member name="M:PlotterConversionSystem.TokenDefinitions.TinySVG.TinySvgRectangle.SetParameters(System.String[])">
+            <summary>
+            Assigns the attributes of the token to a given string array.
+            </summary>
+            <param name="parameters"> A <code>string[]</code> of variable length </param>
+        </member>
+    </members>
+</doc>
