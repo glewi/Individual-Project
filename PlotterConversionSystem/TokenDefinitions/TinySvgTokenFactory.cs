@@ -3,8 +3,12 @@ using PlotterConversionSystem.TokenDefinitions.TinySVG;
 
 namespace PlotterConversionSystem.TokenDefinitions
 {
+    /// <summary>
+    /// This concrete token factory is used to generate TinySVG tokens for the rest of the project.
+    /// </summary>
     public class TinySvgTokenFactory : ITokenFactory
     {
+        // Create a token using the byte identifier and its read attributes.
         public IToken CreateToken(byte identifier, params string[] attributes)
         {
             switch (identifier)
@@ -29,6 +33,7 @@ namespace PlotterConversionSystem.TokenDefinitions
             }
         }
 
+        // Create the token using the string identifier of its name and its associated attributes
         public IToken CreateToken(string identifier, params string[] attributes)
         {
             switch (identifier)

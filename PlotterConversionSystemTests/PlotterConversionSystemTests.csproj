@@ -58,6 +58,8 @@
     <Compile Include="TokenDefinitions\TinySvgTokenFactoryTests.cs" />
     <Compile Include="TokenDefinitions\TinySVG\TinySvgCircleTests.cs" />
     <Compile Include="TokenDefinitions\TinySVG\TinySvgLineTests.cs" />
+    <Compile Include="TokenDefinitions\TinySVG\TinySvgPolygonTests.cs" />
+    <Compile Include="TokenDefinitions\TinySVG\TinySvgPolylineTests.cs" />
     <Compile Include="TokenDefinitions\TinySVG\TinySvgRectangleTests.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -65,6 +67,9 @@
       <Project>{EE6FD1FF-1BC7-44C9-A6BE-26C3C6FC12AD}</Project>
       <Name>PlotterConversionSystem</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

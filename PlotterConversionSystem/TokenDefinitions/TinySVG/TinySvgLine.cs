@@ -23,7 +23,7 @@ namespace PlotterConversionSystem.TokenDefinitions.TinySVG
         /// <param name="attributes"> A string[] of variable length. </param>
         public TinySvgLine(params string[] attributes)
         {
-            SetStringParameters(attributes);
+            SetParameters(attributes);
         }
         
         /// <summary>
@@ -73,7 +73,7 @@ namespace PlotterConversionSystem.TokenDefinitions.TinySVG
         /// Assigns the attributes of the token to a given string array.
         /// </summary>
         /// <param name="parameters"> A string[] of variable length. </param>
-        public void SetStringParameters(params string[] parameters)
+        public void SetParameters(params string[] parameters)
         {
             try
             {

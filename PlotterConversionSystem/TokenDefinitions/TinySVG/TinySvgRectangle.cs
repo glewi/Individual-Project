@@ -24,7 +24,7 @@ namespace PlotterConversionSystem.TokenDefinitions.TinySVG
         /// <param name="attributes"> A <code>string[]</code> of variable length. </param>
         public TinySvgRectangle(params string[] attributes)
         {
-            SetStringParameters(attributes);
+            SetParameters(attributes);
         }
 
         /// <summary>
@@ -78,7 +78,7 @@ namespace PlotterConversionSystem.TokenDefinitions.TinySVG
         /// Assigns the attributes of the token to a given string array.
         /// </summary>
         /// <param name="parameters"> A <code>string[]</code> of variable length </param>
-        public void SetStringParameters(params string[] parameters)
+        public void SetParameters(params string[] parameters)
         {
             // Check for any errors when parsing the int values from the given strings.
             try

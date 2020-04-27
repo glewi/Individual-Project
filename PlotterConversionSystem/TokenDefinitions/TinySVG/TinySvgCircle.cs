@@ -27,7 +27,7 @@ namespace PlotterConversionSystem.TokenDefinitions.TinySVG
         /// <param name="attributes"> A string[] of variable length. </param>
         public TinySvgCircle(params string[] attributes)
         {
-            SetStringParameters(attributes);
+            SetParameters(attributes);
         }
 
         /// <summary>
@@ -75,12 +75,14 @@ namespace PlotterConversionSystem.TokenDefinitions.TinySVG
         /// Assigns the attributes of the token to a given string array.
         /// </summary>
         /// <param name="parameters"> A <code>string[]</code> of variable length. </param>
-        public void SetStringParameters(params string[] parameters)
+        public void SetParameters(params string[] parameters)
         {
             try
             {
                 x = int.Parse(parameters[0]);
                 y = int.Parse(parameters[1]);
+                
+                // Use the checked function to mitigate against integer overflows/underflows.
                 r = checked(uint.Parse(parameters[2]));
             }
             catch (Exception exception)

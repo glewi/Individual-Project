@@ -13,7 +13,7 @@ namespace PlotterConversionSystem.TokenDefinitions.TinySVG.Tests
     public class TinySvgCircleTests
     {
         [TestMethod()]
-        public void TinySvgCircleValidTest()
+        public void TinySvgCircleValidFormatTest()
         {
             string[] attributes = new string[] { "50","50","40" };
             var token = new TinySvgCircle(attributes);
@@ -22,11 +22,12 @@ namespace PlotterConversionSystem.TokenDefinitions.TinySVG.Tests
         }
 
         [TestMethod()]
-        [ExpectedException(typeof(InvalidCastException))]
+        [ExpectedException(typeof(FormatException))]
         public void TinySvgCircleInvalidFormatTest()
         {
             string[] attributes = new string[] { "NOT", "VALID", "VALUES" };
             var token = new TinySvgCircle(attributes);
+
         }
 
         [TestMethod()]
@@ -81,9 +82,19 @@ namespace PlotterConversionSystem.TokenDefinitions.TinySVG.Tests
         }
 
         [TestMethod()]
-        public void SetStringParametersTest()
+        public void SetParametersTest()
         {
-            Assert.Fail();
+            string[] attributes = new string[] { "50", "50", "40" };
+            var token = new TinySvgCircle(attributes);
+
+            string[] expectedrestult = new string[]
+            {
+                attributes[0].ToString() ,
+                attributes[1].ToString() ,
+                attributes[2].ToString()
+            };
+
+            CollectionAssert.AreEqual(expectedrestult, token.GetParameters());
         }
     }
 }
